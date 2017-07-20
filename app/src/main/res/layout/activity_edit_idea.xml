@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_idea"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="blitzidee.com.blitzidee.activities.IdeaActivity">
+
+    <include android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textColor="@color/colorAccent"
+                android:layout_marginBottom="15dp"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="5dp"
+                android:text="Title"
+                android:id="@+id/editTextIdeaTitle"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.72"
+            android:layout_marginRight="16dp"
+            android:layout_height="360dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textColor="@color/colorAccent"
+                android:layout_marginBottom="15dp"
+                android:textSize="20sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="5dp"
+                android:text="Relacionado ao tema deste artigo, o projeto proposto por Vishwanath et al (2016) [4] tratará sobre a eficácia da criptografia aplicada sobre os dados em Fog. O objetivo deste projeto é obter segurança em Fog, que é o segundo nível do sistema de nuvem, fazendo uso do algoritmo de criptografia AES e aplicando-o sobre os conjuntos de dados selecionados através da implantação em um dispositivo de borda móvel e assim coletar as métricas de desempenho em três conjuntos de dados e avaliar melhores e piores casos em todos os aspectos dos conjuntos de dados."
+                android:id="@+id/editTextIdeaDescription"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

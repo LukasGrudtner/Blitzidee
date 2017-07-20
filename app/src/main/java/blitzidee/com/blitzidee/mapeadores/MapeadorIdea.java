@@ -37,9 +37,13 @@ public class MapeadorIdea extends SQLiteOpenHelper{
     public void put(Idea idea) {
 
         if (this.get(idea.getTitle()) != null)
-            atualizaIdeiaExistente(idea);
+            atualizaIdeiaExistente(idea.getTitle(), idea);
         else
             insereNovaIdeia(idea);
+    }
+
+    public void updateIdea(String oldTitle, Idea idea) {
+        atualizaIdeiaExistente(oldTitle, idea);
     }
 
     private void insereNovaIdeia(Idea idea) {
@@ -72,7 +76,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
         }
     }
 
-    private void atualizaIdeiaExistente(Idea idea) {
+    private void atualizaIdeiaExistente(String oldTitle, Idea idea) {
 
         try {
             SQLiteDatabase database = this.getWritableDatabase();
@@ -87,7 +91,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                     "END_MONTH = '" + idea.getEndDate().get(GregorianCalendar.MONTH) + "', " +
                     "END_YEAR = '" + idea.getEndDate().get(GregorianCalendar.YEAR) + "', " +
                     "IS_COMPLETE = '" + ((idea.isComplete())? 1 : 0) + "' " +
-                    "WHERE TITLE = '" + idea.getTitle() + "'");
+                    "WHERE TITLE = '" + oldTitle + "'");
 
             database.close();
             Log.i("DATABASEDAD", "Atualiza " + idea.getTitle() + ":: " + idea.getEndDate().get(GregorianCalendar.YEAR));

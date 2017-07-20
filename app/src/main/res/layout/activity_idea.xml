@@ -40,7 +40,8 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_marginBottom="5dp"
                 android:text="Title"
-                android:id="@+id/textViewIdeaTitle" />
+                android:id="@+id/textViewIdeaTitle"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -65,8 +66,9 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginBottom="5dp"
-                android:text="Description"
-                android:id="@+id/textViewIdeaDescription" />
+                android:text="Relacionado ao tema deste artigo, o projeto proposto por Vishwanath et al (2016) [4] tratará sobre a eficácia da criptografia aplicada sobre os dados em Fog. O objetivo deste projeto é obter segurança em Fog, que é o segundo nível do sistema de nuvem, fazendo uso do algoritmo de criptografia AES e aplicando-o sobre os conjuntos de dados selecionados através da implantação em um dispositivo de borda móvel e assim coletar as métricas de desempenho em três conjuntos de dados e avaliar melhores e piores casos em todos os aspectos dos conjuntos de dados."
+                android:id="@+id/textViewIdeaDescription"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

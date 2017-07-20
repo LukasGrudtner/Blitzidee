@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class IdeasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ideas, container, false);
 
+        Log.i("RESUMEED", "onCreate");
+
         setFloatingActionButton(view);
         listIdeas = loadIdeasFromDatabase();
 //        listIdeas = reverseList(listIdeas);
@@ -76,13 +79,6 @@ public class IdeasFragment extends Fragment {
         ideaListAdapter.notifyDataSetChanged();
 
         return view;
-    }
-
-    private ArrayList<Idea> reverseList(ArrayList<Idea> list) {
-        ArrayList<Idea> listAux = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++)
-            listAux.add(list.get(list.size()-1));
-        return listAux;
     }
 
     private void setFloatingActionButton(View view) {
@@ -223,4 +219,31 @@ public class IdeasFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        listIdeas = loadIdeasFromDatabase();
+//        listIdeas = reverseList(listIdeas);
+        listViewIdeas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                createAlertDialogRemoveIdea(listIdeas.get(position), position);
+                return false;
+            }
+        });
+
+        listViewIdeas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), IdeaActivity.class);
+                intent.putExtra("ideaTitle", listIdeas.get(position).getTitle());
+                startActivity(intent);
+            }
+        });
+
+        ideaListAdapter = new IdeaListAdapter(getActivity(), listIdeas);
+        listViewIdeas.setAdapter(ideaListAdapter);
+        ideaListAdapter.notifyDataSetChanged();
+    }
 }

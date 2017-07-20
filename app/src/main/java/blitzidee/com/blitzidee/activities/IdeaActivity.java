@@ -1,11 +1,19 @@
 package blitzidee.com.blitzidee.activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.GregorianCalendar;
 
@@ -21,6 +29,7 @@ public class IdeaActivity extends AppCompatActivity {
     private TextView textViewCreationDate;
     private TextView textViewEndDate;
     private FloatingActionButton floatingActionButton;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,8 @@ public class IdeaActivity extends AppCompatActivity {
         String ideaTitle = getIntent().getExtras().getString("ideaTitle");
         MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
         idea = mapeadorIdea.get(ideaTitle);
+
+        createToolbar();
 
         textViewTitle = (TextView) findViewById(R.id.textViewIdeaTitle);
         textViewDescription = (TextView) findViewById(R.id.textViewIdeaDescription);
@@ -54,6 +65,69 @@ public class IdeaActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void createToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_idea, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.item_delete:
+                doActionDelete();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void doActionEdit() {
+        Intent intent = new Intent(this, EditIdeaActivity.class);
+        intent.putExtra("ideaTitle", idea.getTitle());
+        startActivity(intent);
+    }
+
+    private void doActionDelete() {
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
+//        alertDialog.setMessage("Você realmente quer deletar a ideia '" + idea.getTitle() + "'?");
+//        alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                deleteIdeaFromDatabase(idea);
+//                Toast.makeText(getApplicationContext(), "Ideia apagada!", Toast.LENGTH_SHORT).show();
+//                onDestroy();
+//            }
+//        });
+//        alertDialog.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//            }
+//        });
+//
+//        alertDialog.create();
+//        alertDialog.show();
+
+        deleteIdeaFromDatabase(idea);
+        Toast.makeText(getApplicationContext(), "Ideia apagada!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void deleteIdeaFromDatabase(Idea idea) {
+        MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
+        mapeadorIdea.remove(idea.getTitle());
+        mapeadorIdea.close();
     }
 
     private void saveIdeaOnDatabase() {
