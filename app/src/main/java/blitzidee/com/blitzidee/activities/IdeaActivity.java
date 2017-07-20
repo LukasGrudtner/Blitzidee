@@ -1,13 +1,10 @@
 package blitzidee.com.blitzidee.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,6 +59,7 @@ public class IdeaActivity extends AppCompatActivity {
                 idea.setEndDate(new GregorianCalendar());
                 setEndDateInTextView(new GregorianCalendar());
                 saveIdeaOnDatabase();
+                Toast.makeText(getApplicationContext(), "Feito!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -99,28 +97,8 @@ public class IdeaActivity extends AppCompatActivity {
     }
 
     private void doActionDelete() {
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getApplicationContext());
-//        alertDialog.setMessage("Você realmente quer deletar a ideia '" + idea.getTitle() + "'?");
-//        alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                deleteIdeaFromDatabase(idea);
-//                Toast.makeText(getApplicationContext(), "Ideia apagada!", Toast.LENGTH_SHORT).show();
-//                onDestroy();
-//            }
-//        });
-//        alertDialog.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//
-//        alertDialog.create();
-//        alertDialog.show();
-
         deleteIdeaFromDatabase(idea);
-        Toast.makeText(getApplicationContext(), "Ideia apagada!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Removida!", Toast.LENGTH_SHORT).show();
         finish();
     }
 

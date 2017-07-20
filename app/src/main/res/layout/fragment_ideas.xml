@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context="blitzidee.com.blitzidee.fragments.IdeasFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -9,9 +10,8 @@
         android:id="@+id/list_view_ideas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/colorPrimaryDark"
+        android:divider="@color/color_subtitles"
         android:dividerHeight="1dp">
-
     </ListView>
 
     <android.support.design.widget.FloatingActionButton

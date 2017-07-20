@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -48,8 +47,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
     private void insereNovaIdeia(Idea idea) {
 
-        Log.i("DATABASEDAD", "Tenta inserir");
-
         try {
             SQLiteDatabase database = this.getWritableDatabase();
 
@@ -68,8 +65,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                             "'" + ((idea.isComplete())? 1 : 0) + "')");
 
             database.close();
-
-            Log.i("DATABASEDAD", "Salvou: " + idea.getTitle());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +89,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                     "WHERE TITLE = '" + oldTitle + "'");
 
             database.close();
-            Log.i("DATABASEDAD", "Atualiza " + idea.getTitle() + ":: " + idea.getEndDate().get(GregorianCalendar.YEAR));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,8 +134,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             gregorianCalendarEnd.set(GregorianCalendar.MONTH, cursor.getInt(columnEndMonth));
             gregorianCalendarEnd.set(GregorianCalendar.YEAR, cursor.getInt(columnEndYear));
             idea.setEndDate(gregorianCalendarEnd);
-
-            Log.i("DATABASEDAD", "" + idea.getEndDate().get(GregorianCalendar.YEAR));
 
             database.close();
             return idea;

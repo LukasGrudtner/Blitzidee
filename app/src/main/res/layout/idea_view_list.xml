@@ -5,13 +5,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="@color/colorBackgroundDark"
     android:padding="6dp">
-    <!--android:background="@color/colorBackground"-->
-
-
-    <!--app:srcCompat="@drawable/ic_action_bookmark"-->
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -24,12 +19,13 @@
             android:layout_width="48dp"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_action_bulb"
-            android:id="@+id/imageView" />
+            android:id="@+id/imageViewLamp" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp">
 
             <TextView
                 android:layout_marginTop="5dp"
@@ -47,7 +43,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/color_subtitles"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="5dp"
                     android:textSize="12dp"
@@ -55,11 +51,9 @@
                     android:id="@+id/textViewIdeaDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <!--android:textColor="@color/color_subtitles"-->
-
 
                 <TextView
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/color_subtitles"
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="5dp"
@@ -69,17 +63,11 @@
                     android:gravity="right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-                <!--android:textColor="@color/color_subtitles"-->
-
 
             </LinearLayout>
 
         </LinearLayout>
 
-
-
     </LinearLayout>
-
-
 
 </LinearLayout>

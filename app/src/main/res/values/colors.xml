@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorPrimary">#00203d</color>
+    <color name="colorPrimaryDark">#000f1d</color>
+    <color name="colorAccent">#499eff</color>
+    <color name="colorTextTimer">#00203d</color>
+    <color name="color_subtitles">#aaaaaa</color>
+    <color name="color_subtitles_dark">#878787</color>
+    <color name="colorBackground">#eaeaea</color>
+    <color name="colorEditTextBackground">#f1f1f1</color>
+    <color name="beginColor">#ff0000</color>
+    <color name="endColor">#009043</color>
+    <color name="colorProgress">#a6d4ff</color>
+    <color name="colorStart">#0067c3</color>
+    <color name="colorNavigationView">#d8d8d8</color>
+    <color name="colorIconAndTextNavigationView">#424242</color>
+    <color name="colorBackgroundDark">#d9d9d9</color>
+    <color name="colorBackgroundCompleted">#c0dac2</color>
 </resources>

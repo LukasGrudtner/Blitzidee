@@ -8,16 +8,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -50,20 +46,11 @@ public class IdeasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ideas, container, false);
 
-        Log.i("RESUMEED", "onCreate");
-
         setFloatingActionButton(view);
         listIdeas = loadIdeasFromDatabase();
 //        listIdeas = reverseList(listIdeas);
 
         listViewIdeas = (ListView) view.findViewById(R.id.list_view_ideas);
-        listViewIdeas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                createAlertDialogRemoveIdea(listIdeas.get(position), position);
-                return false;
-            }
-        });
 
         listViewIdeas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -74,7 +61,7 @@ public class IdeasFragment extends Fragment {
             }
         });
 
-                ideaListAdapter = new IdeaListAdapter(getActivity(), listIdeas);
+        ideaListAdapter = new IdeaListAdapter(getActivity(), listIdeas);
         listViewIdeas.setAdapter(ideaListAdapter);
         ideaListAdapter.notifyDataSetChanged();
 
@@ -91,43 +78,8 @@ public class IdeasFragment extends Fragment {
         });
     }
 
-    private void createAlertDialogRemoveIdea(Idea idea, final int position) {
-
-        final Idea removeIdea = idea;
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setMessage("Deseja remover a ideia '" + idea.getTitle() + "'?");
-
-        alertDialog.setPositiveButton("Remover", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listIdeas.remove(position);
-                removeIdeaFromDatabase(removeIdea);
-                ideaListAdapter.notifyDataSetChanged();
-                Toast.makeText(getActivity(), "Ideia removida!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        alertDialog.create();
-        alertDialog.show();
-    }
-
-    private void removeIdeaFromDatabase(Idea idea) {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getContext());
-        mapeadorIdea.remove(idea.getTitle());
-        mapeadorIdea.close();
-    }
-
     private void createAlertDialogAddIdea() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("Add Idea");
         alertDialog.setCancelable(false);
 
         /*****************************************************************************************
@@ -224,14 +176,7 @@ public class IdeasFragment extends Fragment {
         super.onResume();
 
         listIdeas = loadIdeasFromDatabase();
-//        listIdeas = reverseList(listIdeas);
-        listViewIdeas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                createAlertDialogRemoveIdea(listIdeas.get(position), position);
-                return false;
-            }
-        });
+
 
         listViewIdeas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
