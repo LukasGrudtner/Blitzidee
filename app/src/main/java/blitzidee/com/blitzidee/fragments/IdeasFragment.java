@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -170,7 +169,9 @@ public class IdeasFragment extends Fragment {
 
     private ArrayList<Idea> loadIdeasFromDatabase() {
         MapeadorIdea mapeadorIdea = new MapeadorIdea(getContext());
-        return mapeadorIdea.getAll();
+        ArrayList<Idea> ideaList = mapeadorIdea.getAll();
+        mapeadorIdea.close();
+        return ideaList;
     }
 
     private void scrollMyListViewToBottom() {
@@ -187,7 +188,6 @@ public class IdeasFragment extends Fragment {
         super.onResume();
 
         listIdeas = loadIdeasFromDatabase();
-
 
         listViewIdeas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

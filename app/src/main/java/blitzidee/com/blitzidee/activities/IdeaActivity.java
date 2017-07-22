@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 
 import blitzidee.com.blitzidee.R;
 import blitzidee.com.blitzidee.adapter.GoalListAdapter;
+import blitzidee.com.blitzidee.mapeadores.MapeadorGoal;
 import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
 import blitzidee.com.blitzidee.model.Goal;
 import blitzidee.com.blitzidee.model.Idea;
@@ -48,19 +49,17 @@ public class IdeaActivity extends AppCompatActivity {
         String ideaTitle = getIntent().getExtras().getString("ideaTitle");
         MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
         idea = mapeadorIdea.get(ideaTitle);
+        mapeadorIdea.close();
 
         createToolbar();
 
         textViewTitle = (TextView) findViewById(R.id.textViewIdeaTitle);
-
-
         textViewTitle.setText(idea.getTitle());
 
         setFloatingActionButton();
 
         /* Implementação dos Goals */
-//        listGoals = loadGoalsFromDatabase();
-        listGoals = new ArrayList<Goal>();
+        listGoals = idea.getGoalArrayList();
         listViewGoals = (ListView) findViewById(R.id.list_view_goals);
         goalListAdapter = new GoalListAdapter(getApplicationContext(), listGoals);
         listViewGoals.setAdapter(goalListAdapter);
@@ -92,11 +91,11 @@ public class IdeaActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Goal goal = new Goal();
+                goal.setIdeaId(idea.getId());
                 goal.setDescription(editTextDescription.getText().toString());
                 idea.getGoalArrayList().add(goal);
-                listGoals.add(goal);
                 goalListAdapter.notifyDataSetChanged();
-//                saveGoalOnDatabase(goal);
+                saveGoalOnDatabase(goal);
                 scrollMyListViewToBottom();
 
                 Toast.makeText(getApplicationContext(), "Adicionado!", Toast.LENGTH_SHORT).show();
@@ -154,7 +153,7 @@ public class IdeaActivity extends AppCompatActivity {
 
     private void deleteIdeaFromDatabase(Idea idea) {
         MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
-        mapeadorIdea.remove(idea.getTitle());
+        mapeadorIdea.remove(idea);
         mapeadorIdea.close();
     }
 
@@ -216,5 +215,18 @@ public class IdeaActivity extends AppCompatActivity {
                 listViewGoals.setSelection(goalListAdapter.getCount()-1);
             }
         });
+    }
+
+    private void saveGoalOnDatabase(Goal goal) {
+        MapeadorGoal mapeadorGoal = new MapeadorGoal(getApplicationContext());
+        mapeadorGoal.put(goal);
+        mapeadorGoal.close();
+    }
+
+    private ArrayList<Goal> loadGoalsFromDatabase() {
+        MapeadorGoal mapeadorGoal = new MapeadorGoal(getApplicationContext());
+        ArrayList<Goal> goalList = mapeadorGoal.getAll(idea);
+        mapeadorGoal.close();
+        return goalList;
     }
 }

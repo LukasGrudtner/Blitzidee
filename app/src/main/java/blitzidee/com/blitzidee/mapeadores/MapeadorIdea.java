@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import blitzidee.com.blitzidee.model.Goal;
 import blitzidee.com.blitzidee.model.Idea;
 
 /**
@@ -16,7 +16,8 @@ import blitzidee.com.blitzidee.model.Idea;
 
 public class MapeadorIdea extends SQLiteOpenHelper{
 
-    private static final String DATABASE_NAME = "blitzidee";
+    private MapeadorGoal mapeadorGoal;
+    private static final String DATABASE_NAME = "blitzidee.ideas";
     private static final String STRING_CREATION_TABLE = "CREATE TABLE IF NOT EXISTS IDEAS (" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "TITLE VARCHAR, " +
@@ -30,6 +31,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
     public MapeadorIdea(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        mapeadorGoal = new MapeadorGoal(context);
     }
 
     public void put(Idea idea) {
@@ -61,6 +63,13 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                             "'" + idea.getEndDate().get(GregorianCalendar.MONTH) + "', " +
                             "'" + idea.getEndDate().get(GregorianCalendar.YEAR) + "', " +
                             "'" + ((idea.isComplete())? 1 : 0) + "')");
+
+            Cursor cursor = database.rawQuery("SELECT ID FROM IDEAS WHERE TITLE = '" + idea.getTitle() + "'", null);
+            cursor.moveToFirst();
+            idea.setId(cursor.getInt(0));
+
+            for (Goal goal : idea.getGoalArrayList())
+                mapeadorGoal.put(goal);
 
             database.close();
 
@@ -100,11 +109,12 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
             database.execSQL(STRING_CREATION_TABLE);
 
-            Cursor cursor = database.rawQuery("SELECT START_DAY, START_MONTH, " +
+            Cursor cursor = database.rawQuery("SELECT ID, START_DAY, START_MONTH, " +
                 "START_YEAR, END_DAY, END_MONTH, END_YEAR, IS_COMPLETE FROM IDEAS " +
                 "WHERE TITLE = '" + title + "'", null);
 
             /* Recuperar o índice de cada coluna. */
+            int columnId = cursor.getColumnIndex("ID");
             int columnStartDay = cursor.getColumnIndex("START_DAY");
             int columnStartMonth = cursor.getColumnIndex("START_MONTH");
             int columnStartYear = cursor.getColumnIndex("START_YEAR");
@@ -115,6 +125,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
             cursor.moveToFirst();
             idea = new Idea();
+            idea.setId(cursor.getInt(columnId));
             idea.setTitle(title);
             idea.setConclusion((cursor.getInt(columnIsComplete) == 1)? true : false);
 
@@ -129,6 +140,8 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             gregorianCalendarEnd.set(GregorianCalendar.MONTH, cursor.getInt(columnEndMonth));
             gregorianCalendarEnd.set(GregorianCalendar.YEAR, cursor.getInt(columnEndYear));
             idea.setEndDate(gregorianCalendarEnd);
+
+            idea.setGoalArrayList(mapeadorGoal.getAll(idea));
 
             database.close();
             return idea;
@@ -152,6 +165,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             Cursor cursor = database.rawQuery("SELECT * FROM IDEAS", null);
 
             /* Recuperar o índice de cada coluna. */
+            int columnId = cursor.getColumnIndex("ID");
             int columnTitle = cursor.getColumnIndex("TITLE");
             int columnStartDay = cursor.getColumnIndex("START_DAY");
             int columnStartMonth = cursor.getColumnIndex("START_MONTH");
@@ -164,8 +178,9 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             cursor.moveToFirst();
             Idea idea;
 
-            while (cursor != null) {
+            for (int i = 0; i < cursor.getCount(); i++) {
                 idea = new Idea();
+                idea.setId(cursor.getInt(columnId));
                 idea.setTitle(cursor.getString(columnTitle));
                 idea.setConclusion((cursor.getInt(columnIsComplete) == 1) ? true : false);
 
@@ -183,7 +198,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
                 ideaList.add(idea);
                 cursor.moveToNext();
-
             }
 
             database.close();
@@ -197,14 +211,18 @@ public class MapeadorIdea extends SQLiteOpenHelper{
     }
 
 
-    public void remove(String title) {
+    public void remove(Idea idea) {
 
         try {
             SQLiteDatabase database = this.getWritableDatabase();
 
             database.execSQL(STRING_CREATION_TABLE);
 
-            database.execSQL("DELETE FROM IDEAS WHERE TITLE = '" + title + "'");
+            database.execSQL("DELETE FROM IDEAS WHERE TITLE = '" + idea.getTitle() + "'");
+
+            for (Goal goal : idea.getGoalArrayList())
+                mapeadorGoal.remove(goal);
+
             database.close();
 
         } catch (Exception e) {

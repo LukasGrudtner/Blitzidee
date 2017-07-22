@@ -6,8 +6,17 @@ package blitzidee.com.blitzidee.model;
 
 public class Goal {
 
+    private int ideaId;
     private String description;
     private boolean isComplete = false;
+
+    public int getIdeaId() {
+        return ideaId;
+    }
+
+    public void setIdeaId(int ideaId) {
+        this.ideaId = ideaId;
+    }
 
     public String getDescription() {
         return description;
