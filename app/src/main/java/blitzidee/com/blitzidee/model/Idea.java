@@ -1,5 +1,6 @@
 package blitzidee.com.blitzidee.model;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 /**
@@ -9,10 +10,14 @@ import java.util.GregorianCalendar;
 public class Idea {
 
     private String title;
-    private String description;
+    private ArrayList<Goal> goalArrayList;
     private GregorianCalendar creationDate;
     private GregorianCalendar endDate;
     private boolean isComplete = false;
+
+    public Idea() {
+        goalArrayList = new ArrayList<>();
+    }
 
     public String getTitle() {
         return title;
@@ -22,12 +27,12 @@ public class Idea {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public ArrayList<Goal> getGoalArrayList() {
+        return goalArrayList;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setGoalArrayList(ArrayList<Goal> goalArrayList) {
+        this.goalArrayList = goalArrayList;
     }
 
     public GregorianCalendar getCreationDate() {

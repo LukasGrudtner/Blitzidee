@@ -1,32 +1,44 @@
 package blitzidee.com.blitzidee.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import blitzidee.com.blitzidee.R;
+import blitzidee.com.blitzidee.adapter.GoalListAdapter;
 import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
+import blitzidee.com.blitzidee.model.Goal;
 import blitzidee.com.blitzidee.model.Idea;
 
 public class IdeaActivity extends AppCompatActivity {
 
     private Idea idea;
     private TextView textViewTitle;
-    private TextView textViewDescription;
     private TextView textViewCreationDate;
     private TextView textViewEndDate;
     private FloatingActionButton floatingActionButton;
     private Toolbar toolbar;
+
+    private ListView listViewGoals;
+    private ArrayList<Goal> listGoals;
+    private GoalListAdapter goalListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +52,66 @@ public class IdeaActivity extends AppCompatActivity {
         createToolbar();
 
         textViewTitle = (TextView) findViewById(R.id.textViewIdeaTitle);
-        textViewDescription = (TextView) findViewById(R.id.textViewIdeaDescription);
-        textViewCreationDate = (TextView) findViewById(R.id.textViewIdeaCreationDate);
-        textViewEndDate = (TextView) findViewById(R.id.textViewIdeaEndDate);
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.fabIdeaConcluded);
+
 
         textViewTitle.setText(idea.getTitle());
-        textViewDescription.setText(idea.getDescription());
 
-        setCreationDateInTextView(idea.getCreationDate());
-        setEndDateInTextView(idea.getEndDate());
+        setFloatingActionButton();
 
-        /* Action listener no botão concluded */
+        /* Implementação dos Goals */
+//        listGoals = loadGoalsFromDatabase();
+        listGoals = new ArrayList<Goal>();
+        listViewGoals = (ListView) findViewById(R.id.list_view_goals);
+        goalListAdapter = new GoalListAdapter(getApplicationContext(), listGoals);
+        listViewGoals.setAdapter(goalListAdapter);
+        goalListAdapter.notifyDataSetChanged();
+    }
+
+    private void setFloatingActionButton() {
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab_add_goal);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                idea.setConclusion(true);
-                idea.setEndDate(new GregorianCalendar());
-                setEndDateInTextView(new GregorianCalendar());
-                saveIdeaOnDatabase();
-                Toast.makeText(getApplicationContext(), "Feito!", Toast.LENGTH_SHORT).show();
+                createAlertDialogAddGoal();
             }
         });
+    }
+
+    private void createAlertDialogAddGoal() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setCancelable(false);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.add_idea_dialog, null, false);
+
+        final EditText editTextDescription = (EditText) view.findViewById(R.id.editTextDialogTitle);
+
+        alertDialog.setView(view);
+
+        alertDialog.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Goal goal = new Goal();
+                goal.setDescription(editTextDescription.getText().toString());
+                idea.getGoalArrayList().add(goal);
+                listGoals.add(goal);
+                goalListAdapter.notifyDataSetChanged();
+//                saveGoalOnDatabase(goal);
+                scrollMyListViewToBottom();
+
+                Toast.makeText(getApplicationContext(), "Adicionado!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.create();
+        alertDialog.show();
 
     }
 
@@ -157,5 +207,14 @@ public class IdeaActivity extends AppCompatActivity {
         else
             return true;
 
+    }
+
+    private void scrollMyListViewToBottom() {
+        listViewGoals.post(new Runnable() {
+            @Override
+            public void run() {
+                listViewGoals.setSelection(goalListAdapter.getCount()-1);
+            }
+        });
     }
 }

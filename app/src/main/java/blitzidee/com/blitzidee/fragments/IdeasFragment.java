@@ -48,16 +48,13 @@ public class IdeasFragment extends Fragment {
 
         setFloatingActionButton(view);
         listIdeas = loadIdeasFromDatabase();
-//        listIdeas = reverseList(listIdeas);
 
         listViewIdeas = (ListView) view.findViewById(R.id.list_view_ideas);
 
         listViewIdeas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), IdeaActivity.class);
-                intent.putExtra("ideaTitle", listIdeas.get(position).getTitle());
-                startActivity(intent);
+                openIdeaActivity(position);
             }
         });
 
@@ -66,6 +63,24 @@ public class IdeasFragment extends Fragment {
         ideaListAdapter.notifyDataSetChanged();
 
         return view;
+    }
+
+    private void openIdeaActivity(int position) {
+        Intent intent = new Intent(getActivity(), IdeaActivity.class);
+        intent.putExtra("ideaTitle", listIdeas.get(position).getTitle());
+        startActivity(intent);
+    }
+
+    private int getIdeaPositionFromArrayList(Idea idea) {
+        int position = 0;
+        for (Idea aux : listIdeas) {
+            if (aux.equals(idea))
+                return position;
+            else
+                position++;
+        }
+
+        return position;
     }
 
     private void setFloatingActionButton(View view) {
@@ -108,7 +123,6 @@ public class IdeasFragment extends Fragment {
         View view = inflater.inflate(R.layout.add_idea_dialog, null, false);
 
         final EditText editTextTitle = (EditText) view.findViewById(R.id.editTextDialogTitle);
-        final EditText editTextDescription = (EditText) view.findViewById(R.id.editTextDialogDescription);
 
         alertDialog.setView(view);
 
@@ -119,10 +133,6 @@ public class IdeasFragment extends Fragment {
                 Idea idea = new Idea();
                 idea.setCreationDate(gregorianCalendarStart);
                 idea.setTitle(editTextTitle.getText().toString());
-                if (editTextDescription.getText().toString().isEmpty())
-                    idea.setDescription(" ");
-                else
-                    idea.setDescription(editTextDescription.getText().toString());
 
                 GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
                 gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, 1);
@@ -134,6 +144,7 @@ public class IdeasFragment extends Fragment {
                 ideaListAdapter.notifyDataSetChanged();
                 saveIdeaOnDatabase(idea);
                 scrollMyListViewToBottom();
+                openIdeaActivity(getIdeaPositionFromArrayList(idea));
 
                 Toast.makeText(getActivity(), "Adicionado!", Toast.LENGTH_SHORT).show();
             }

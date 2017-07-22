@@ -20,7 +20,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
     private static final String STRING_CREATION_TABLE = "CREATE TABLE IF NOT EXISTS IDEAS (" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "TITLE VARCHAR, " +
-            "DESCRIPTION VARCHAR, " +
             "START_DAY INTEGER, " +
             "START_MONTH INTEGER, " +
             "START_YEAR INTEGER, " +
@@ -52,10 +51,9 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
             database.execSQL(STRING_CREATION_TABLE);
 
-            database.execSQL("INSERT INTO IDEAS (TITLE, DESCRIPTION, START_DAY, START_MONTH, " +
+            database.execSQL("INSERT INTO IDEAS (TITLE, START_DAY, START_MONTH, " +
                             "START_YEAR, END_DAY, END_MONTH, END_YEAR, IS_COMPLETE) " +
                             "VALUES('" + idea.getTitle() + "', " +
-                            "'" + idea.getDescription() + "', " +
                             "'" + idea.getCreationDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
                             "'" + idea.getCreationDate().get(GregorianCalendar.MONTH) + "', " +
                             "'" + idea.getCreationDate().get(GregorianCalendar.YEAR) + "', " +
@@ -78,8 +76,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
             database.execSQL(STRING_CREATION_TABLE);
 
-            database.execSQL("UPDATE IDEAS SET DESCRIPTION = '" + idea.getDescription() + "', " +
-                    "START_DAY = '" + idea.getCreationDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
+            database.execSQL("UPDATE IDEAS SET START_DAY = '" + idea.getCreationDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
                     "START_MONTH = '" + idea.getCreationDate().get(GregorianCalendar.MONTH) + "', " +
                     "START_YEAR = '" + idea.getCreationDate().get(GregorianCalendar.YEAR) + "', " +
                     "END_DAY = '" + idea.getEndDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
@@ -103,12 +100,11 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
             database.execSQL(STRING_CREATION_TABLE);
 
-            Cursor cursor = database.rawQuery("SELECT DESCRIPTION, START_DAY, START_MONTH, " +
+            Cursor cursor = database.rawQuery("SELECT START_DAY, START_MONTH, " +
                 "START_YEAR, END_DAY, END_MONTH, END_YEAR, IS_COMPLETE FROM IDEAS " +
                 "WHERE TITLE = '" + title + "'", null);
 
             /* Recuperar o índice de cada coluna. */
-            int columnDescription = cursor.getColumnIndex("DESCRIPTION");
             int columnStartDay = cursor.getColumnIndex("START_DAY");
             int columnStartMonth = cursor.getColumnIndex("START_MONTH");
             int columnStartYear = cursor.getColumnIndex("START_YEAR");
@@ -120,7 +116,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             cursor.moveToFirst();
             idea = new Idea();
             idea.setTitle(title);
-            idea.setDescription(cursor.getString(columnDescription));
             idea.setConclusion((cursor.getInt(columnIsComplete) == 1)? true : false);
 
             GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
@@ -158,7 +153,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
 
             /* Recuperar o índice de cada coluna. */
             int columnTitle = cursor.getColumnIndex("TITLE");
-            int columnDescription = cursor.getColumnIndex("DESCRIPTION");
             int columnStartDay = cursor.getColumnIndex("START_DAY");
             int columnStartMonth = cursor.getColumnIndex("START_MONTH");
             int columnStartYear = cursor.getColumnIndex("START_YEAR");
@@ -173,7 +167,6 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             while (cursor != null) {
                 idea = new Idea();
                 idea.setTitle(cursor.getString(columnTitle));
-                idea.setDescription(cursor.getString(columnDescription));
                 idea.setConclusion((cursor.getInt(columnIsComplete) == 1) ? true : false);
 
                 GregorianCalendar gregorianCalendarStart = new GregorianCalendar();

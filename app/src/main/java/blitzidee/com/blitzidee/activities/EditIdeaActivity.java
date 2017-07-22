@@ -35,7 +35,7 @@ public class EditIdeaActivity extends AppCompatActivity {
         editTextIdeaDescription = (EditText) findViewById(R.id.editTextIdeaDescription);
 
         editTextIdeaTitle.setText(idea.getTitle());
-        editTextIdeaDescription.setText(idea.getDescription());
+//        editTextIdeaDescription.setText(idea.getDescription());
 
         createToolbar();
     }
@@ -67,7 +67,7 @@ public class EditIdeaActivity extends AppCompatActivity {
 
     private void doActionConfirm() {
         idea.setTitle(editTextIdeaTitle.getText().toString());
-        idea.setDescription(editTextIdeaDescription.getText().toString());
+//        idea.setDescription(editTextIdeaDescription.getText().toString());
         saveIdeaOnDatabase(idea);
 //        openIdeaActivity();
         onDestroy();

@@ -15,12 +15,11 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_margin="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,112 +45,109 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.72"
-            android:layout_marginRight="16dp"
-            android:layout_height="400dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <TextView
+            <ListView
+                android:id="@+id/list_view_goals"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:textColor="@color/colorAccent"
-                android:layout_marginBottom="6dp"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@color/color_subtitles_dark"
-                android:layout_marginBottom="5dp"
-                android:text="Relacionado ao tema deste artigo, o projeto proposto por Vishwanath et al (2016) [4] tratará sobre a eficácia da criptografia aplicada sobre os dados em Fog. O objetivo deste projeto é obter segurança em Fog, que é o segundo nível do sistema de nuvem, fazendo uso do algoritmo de criptografia AES e aplicando-o sobre os conjuntos de dados selecionados através da implantação em um dispositivo de borda móvel e assim coletar as métricas de desempenho em três conjuntos de dados e avaliar melhores e piores casos em todos os aspectos dos conjuntos de dados."
-                android:id="@+id/textViewIdeaDescription"
-                android:textSize="18sp" />
+                android:divider="@color/colorBackground"
+                android:dividerHeight="1dp">
+            </ListView>
 
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_add_goal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:weightSum="1">
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/ic_action_add"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true" />
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Created in"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_subtitles_dark"
-                        android:layout_marginBottom="5dp"
-                        android:id="@+id/textViewIdeaCreationDate" />
-
-                </LinearLayout>
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fabIdeaConcluded"
-                    android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_done"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="0.19"
-                    android:layout_marginRight="35dp"
-                    android:layout_marginLeft="45dp"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="4dp"
-                    app:backgroundTint="@android:color/holo_green_dark" />
-
-                <LinearLayout
-                    android:layout_gravity="right"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Finalized in"
-                        android:textColor="@color/colorAccent"
-                        android:layout_marginRight="16dp"
-                        android:gravity="right"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_subtitles_dark"
-                        android:gravity="right"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="5dp"
-                        android:id="@+id/textViewIdeaEndDate" />
-
-                </LinearLayout>
+        </RelativeLayout>
 
 
 
-            </LinearLayout>
 
-        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:weightSum="1">-->
+
+                <!--<LinearLayout-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Created in"-->
+                        <!--android:textColor="@color/colorAccent"-->
+                        <!--android:textSize="20sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/color_subtitles_dark"-->
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:id="@+id/textViewIdeaCreationDate" />-->
+
+                <!--</LinearLayout>-->
+
+                <!--<android.support.design.widget.FloatingActionButton-->
+                    <!--android:id="@+id/fabIdeaConcluded"-->
+                    <!--android:layout_gravity="bottom|end"-->
+                    <!--android:src="@drawable/ic_done"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_weight="0.19"-->
+                    <!--android:layout_marginRight="35dp"-->
+                    <!--android:layout_marginLeft="45dp"-->
+                    <!--android:layout_width="60dp"-->
+                    <!--android:layout_height="60dp"-->
+                    <!--android:layout_marginBottom="4dp"-->
+                    <!--app:backgroundTint="@android:color/holo_green_dark" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_gravity="right"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Finalized in"-->
+                        <!--android:textColor="@color/colorAccent"-->
+                        <!--android:layout_marginRight="16dp"-->
+                        <!--android:gravity="right"-->
+                        <!--android:textSize="20sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/color_subtitles_dark"-->
+                        <!--android:gravity="right"-->
+                        <!--android:layout_marginRight="16dp"-->
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:id="@+id/textViewIdeaEndDate" />-->
+
+                <!--</LinearLayout>-->
+
+
+
+            <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
