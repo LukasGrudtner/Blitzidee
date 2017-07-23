@@ -53,7 +53,7 @@ public class IdeaListAdapter extends ArrayAdapter {
             // Insere Posição
             setStringPosition(view, position);
 
-            // Insere imagem
+            // Insere Imagem
             setImageIcon(view, position);
         }
         return view;

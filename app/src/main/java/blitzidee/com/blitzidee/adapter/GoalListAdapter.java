@@ -13,7 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import blitzidee.com.blitzidee.R;
 import blitzidee.com.blitzidee.mapeadores.MapeadorGoal;
+import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
 import blitzidee.com.blitzidee.model.Goal;
+import blitzidee.com.blitzidee.model.Idea;
 
 /**
  * Created by lukas on 21/07/2017.
@@ -33,7 +35,7 @@ public class GoalListAdapter extends ArrayAdapter{
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = null;
 
         if (listGoals != null) {
@@ -68,10 +70,29 @@ public class GoalListAdapter extends ArrayAdapter{
                 mapeadorGoal.updateGoal(listGoals.get(position));
                 mapeadorGoal.close();
 
+                updateIdeaConclusion(ideaIsComplete(), listGoals.get(position));
+
                 notifyDataSetChanged();
 
             }
         });
+    }
+
+    private boolean ideaIsComplete() {
+        for (Goal goal : listGoals) {
+            if (!goal.isComplete())
+                return false;
+        }
+
+        return true;
+    }
+
+    private void updateIdeaConclusion(boolean isComplete, Goal goal) {
+        MapeadorIdea mapeadorIdea = new MapeadorIdea(context);
+        Idea idea = mapeadorIdea.get(goal.getIdeaId());
+        idea.setConclusion(isComplete);
+        mapeadorIdea.updateIdea(idea.getTitle(), idea);
+        mapeadorIdea.close();
     }
 
     private void setDescription(View view, int position) {
