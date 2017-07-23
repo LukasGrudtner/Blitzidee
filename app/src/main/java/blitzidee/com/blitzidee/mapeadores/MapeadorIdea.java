@@ -102,7 +102,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
     }
 
     public Idea get(String title) {
-        Idea idea;
+        Idea idea = null;
 
         try {
             SQLiteDatabase database = this.getReadableDatabase();
@@ -113,35 +113,36 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                 "START_YEAR, END_DAY, END_MONTH, END_YEAR, IS_COMPLETE FROM IDEAS " +
                 "WHERE TITLE = '" + title + "'", null);
 
-            /* Recuperar o índice de cada coluna. */
-            int columnId = cursor.getColumnIndex("ID");
-            int columnStartDay = cursor.getColumnIndex("START_DAY");
-            int columnStartMonth = cursor.getColumnIndex("START_MONTH");
-            int columnStartYear = cursor.getColumnIndex("START_YEAR");
-            int columnEndDay = cursor.getColumnIndex("END_DAY");
-            int columnEndMonth = cursor.getColumnIndex("END_MONTH");
-            int columnEndYear = cursor.getColumnIndex("END_YEAR");
-            int columnIsComplete = cursor.getColumnIndex("IS_COMPLETE");
+            if (cursor.getCount() > 0) {
+                int columnId = cursor.getColumnIndex("ID");
+                int columnStartDay = cursor.getColumnIndex("START_DAY");
+                int columnStartMonth = cursor.getColumnIndex("START_MONTH");
+                int columnStartYear = cursor.getColumnIndex("START_YEAR");
+                int columnEndDay = cursor.getColumnIndex("END_DAY");
+                int columnEndMonth = cursor.getColumnIndex("END_MONTH");
+                int columnEndYear = cursor.getColumnIndex("END_YEAR");
+                int columnIsComplete = cursor.getColumnIndex("IS_COMPLETE");
 
-            cursor.moveToFirst();
-            idea = new Idea();
-            idea.setId(cursor.getInt(columnId));
-            idea.setTitle(title);
-            idea.setConclusion((cursor.getInt(columnIsComplete) == 1)? true : false);
+                cursor.moveToFirst();
+                idea = new Idea();
+                idea.setId(cursor.getInt(columnId));
+                idea.setTitle(title);
+                idea.setConclusion((cursor.getInt(columnIsComplete) == 1) ? true : false);
 
-            GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
-            gregorianCalendarStart.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnStartDay));
-            gregorianCalendarStart.set(GregorianCalendar.MONTH, cursor.getInt(columnStartMonth));
-            gregorianCalendarStart.set(GregorianCalendar.YEAR, cursor.getInt(columnStartYear));
-            idea.setCreationDate(gregorianCalendarStart);
+                GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
+                gregorianCalendarStart.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnStartDay));
+                gregorianCalendarStart.set(GregorianCalendar.MONTH, cursor.getInt(columnStartMonth));
+                gregorianCalendarStart.set(GregorianCalendar.YEAR, cursor.getInt(columnStartYear));
+                idea.setCreationDate(gregorianCalendarStart);
 
-            GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
-            gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnEndDay));
-            gregorianCalendarEnd.set(GregorianCalendar.MONTH, cursor.getInt(columnEndMonth));
-            gregorianCalendarEnd.set(GregorianCalendar.YEAR, cursor.getInt(columnEndYear));
-            idea.setEndDate(gregorianCalendarEnd);
+                GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
+                gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnEndDay));
+                gregorianCalendarEnd.set(GregorianCalendar.MONTH, cursor.getInt(columnEndMonth));
+                gregorianCalendarEnd.set(GregorianCalendar.YEAR, cursor.getInt(columnEndYear));
+                idea.setEndDate(gregorianCalendarEnd);
 
-            idea.setGoalArrayList(mapeadorGoal.getAll(idea));
+                idea.setGoalArrayList(mapeadorGoal.getAll(idea));
+            }
 
             database.close();
             return idea;
