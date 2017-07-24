@@ -20,7 +20,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-        <activity android:name=".activities.EditIdeaActivity">
+        <activity android:name=".activities.EditIdeaActivity"></activity>
+        <activity android:name=".activities.BookActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
         </activity>
     </application>
 

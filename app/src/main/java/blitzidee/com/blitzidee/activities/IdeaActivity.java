@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -63,7 +64,50 @@ public class IdeaActivity extends AppCompatActivity {
         listViewGoals = (ListView) findViewById(R.id.list_view_goals);
         goalListAdapter = new GoalListAdapter(getApplicationContext(), listGoals);
         listViewGoals.setAdapter(goalListAdapter);
+        listViewGoals.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                createAlertDialogRemoveGoal(position);
+                return true;
+            }
+        });
         goalListAdapter.notifyDataSetChanged();
+    }
+
+    private void createAlertDialogRemoveGoal(final int position) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setMessage("Você realmente deseja apagar esta meta?");
+        alertDialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteGoalFromDatabase(listGoals.get(position));
+                listGoals.remove(getPositionOfGoalFromList(listGoals.get(position)));
+                goalListAdapter.notifyDataSetChanged();
+
+                Toast.makeText(getApplicationContext(), "Removido!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.create();
+        alertDialog.show();
+    }
+
+    private int getPositionOfGoalFromList(Goal goal) {
+        int position = 0;
+        for (Goal aux : listGoals) {
+            if (goal.equals(aux))
+                return position;
+            else
+                position++;
+        }
+
+        return position;
     }
 
     private void setFloatingActionButton() {
@@ -81,9 +125,9 @@ public class IdeaActivity extends AppCompatActivity {
         alertDialog.setCancelable(false);
 
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.add_idea_dialog, null, false);
+        View view = inflater.inflate(R.layout.add_goal_dialog, null, false);
 
-        final EditText editTextDescription = (EditText) view.findViewById(R.id.editTextDialogTitle);
+        final EditText editTextDescription = (EditText) view.findViewById(R.id.editTextDialogGoalDescription);
 
         alertDialog.setView(view);
 
@@ -215,6 +259,12 @@ public class IdeaActivity extends AppCompatActivity {
                 listViewGoals.setSelection(goalListAdapter.getCount()-1);
             }
         });
+    }
+
+    private void deleteGoalFromDatabase(Goal goal) {
+        MapeadorGoal mapeadorGoal = new MapeadorGoal(getApplicationContext());
+        mapeadorGoal.remove(goal);
+        mapeadorGoal.close();
     }
 
     private void saveGoalOnDatabase(Goal goal) {

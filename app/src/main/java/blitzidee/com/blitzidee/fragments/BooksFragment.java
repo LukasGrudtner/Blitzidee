@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import blitzidee.com.blitzidee.R;
+import blitzidee.com.blitzidee.activities.BookActivity;
 import blitzidee.com.blitzidee.adapter.BookListAdapter;
 import blitzidee.com.blitzidee.mapeadores.MapperBook;
 import blitzidee.com.blitzidee.model.Book;
@@ -54,9 +56,21 @@ public class BooksFragment extends Fragment {
         listViewBooks = (ListView) view.findViewById(R.id.list_view_books);
         bookListAdapter = new BookListAdapter(getActivity(), bookList);
         listViewBooks.setAdapter(bookListAdapter);
+        listViewBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openBookActivity(position);
+            }
+        });
         bookListAdapter.notifyDataSetChanged();
 
         return view;
+    }
+
+    private void openBookActivity(int position) {
+        Intent intent = new Intent(getActivity(), BookActivity.class);
+        intent.putExtra("bookTitle", bookList.get(position).getTitle());
+        startActivity(intent);
     }
 
     private void setFloatingActionButton(View view) {

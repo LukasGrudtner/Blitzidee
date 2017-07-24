@@ -18,6 +18,7 @@ import blitzidee.com.blitzidee.model.Idea;
 
 public class MapperBook extends SQLiteOpenHelper {
 
+    private MapperNote mapperNote;
     private static final String DATABASE_NAME = "blitzidee.books";
     private static final String STRING_CREATION_TABLE = "CREATE TABLE IF NOT EXISTS BOOKS (" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -29,6 +30,7 @@ public class MapperBook extends SQLiteOpenHelper {
 
     public MapperBook(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        mapperNote = new MapperNote(context);
     }
 
     public void put(Book book) {
@@ -83,6 +85,9 @@ public class MapperBook extends SQLiteOpenHelper {
                 gregorianCalendar.set(GregorianCalendar.MONTH, cursor.getInt(columnMonth));
                 gregorianCalendar.set(GregorianCalendar.YEAR, cursor.getInt(columnYear));
                 book.setDate(gregorianCalendar);
+
+                book.setNoteArrayList(mapperNote.getAll(book));
+
             }
 
             database.close();
