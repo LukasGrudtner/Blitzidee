@@ -7,25 +7,38 @@
     android:orientation="vertical"
     tools:context="blitzidee.com.blitzidee.activities.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <blitzidee.com.blitzidee.helper.SlidingTabLayout
-            android:id="@+id/sliding_tab_layout_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
-        </blitzidee.com.blitzidee.helper.SlidingTabLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager_id"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@android:color/white" />
+            <blitzidee.com.blitzidee.helper.SlidingTabLayout
+                android:id="@+id/sliding_tab_layout_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+            </blitzidee.com.blitzidee.helper.SlidingTabLayout>
 
-    </LinearLayout>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager_id"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

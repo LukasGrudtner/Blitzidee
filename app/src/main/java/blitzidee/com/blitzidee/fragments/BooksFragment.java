@@ -36,9 +36,6 @@ public class BooksFragment extends Fragment {
     private ArrayList<Book> bookList;
     private BookListAdapter bookListAdapter;
 
-
-
-
     public BooksFragment() {
         // Required empty public constructor
     }
