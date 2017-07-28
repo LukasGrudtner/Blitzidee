@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -57,6 +58,7 @@ public class MapperNote extends SQLiteOpenHelper {
 
             database.execSQL(STRING_CREATION_TABLE);
 
+            Log.i("TESTE", "bookId: " + book.getId());
             Cursor cursor = database.rawQuery("SELECT * FROM NOTES WHERE BOOK_ID = '" + book.getId() + "'", null);
 
             /* Recuperar o índice de cada coluna. */

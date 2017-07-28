@@ -9,17 +9,19 @@ import java.util.GregorianCalendar;
 
 public class Book {
 
-    private String id;
+    private int id;
     private String title;
     private String author;
-    private GregorianCalendar date;
+    private GregorianCalendar startDate;
+    private GregorianCalendar endDate;
     private ArrayList<Note> noteArrayList;
+    private boolean wasRead = false;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -39,13 +41,17 @@ public class Book {
         this.author = author;
     }
 
-    public GregorianCalendar getDate() {
-        return date;
+    public GregorianCalendar getStartDate() {
+        return startDate;
     }
 
-    public void setDate(GregorianCalendar date) {
-        this.date = date;
+    public void setStartDate(GregorianCalendar startDate) {
+        this.startDate = startDate;
     }
+
+    public GregorianCalendar getEndDate() { return endDate; }
+
+    public void setEndDate(GregorianCalendar endDate) { this.endDate = endDate; }
 
     public ArrayList<Note> getNoteArrayList() {
         return noteArrayList;
@@ -53,5 +59,13 @@ public class Book {
 
     public void setNoteArrayList(ArrayList<Note> noteArrayList) {
         this.noteArrayList = noteArrayList;
+    }
+
+    public boolean wasRead() {
+        return wasRead;
+    }
+
+    public void setRead(boolean wasRead) {
+        this.wasRead = wasRead;
     }
 }

@@ -1,15 +1,21 @@
 package blitzidee.com.blitzidee.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import blitzidee.com.blitzidee.R;
 import blitzidee.com.blitzidee.mapeadores.MapperGoal;
@@ -45,6 +51,7 @@ public class GoalListAdapter extends ArrayAdapter{
 
             setCheckbox(view, position);
             setDescription(view, position);
+            setDeleteButton(view, position);
 
         }
         return view;
@@ -102,8 +109,53 @@ public class GoalListAdapter extends ArrayAdapter{
 
         if (listGoals.get(position).isComplete())
             textViewGoalDescription.setPaintFlags(textViewGoalDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+    }
 
+    private void setDeleteButton(View view, final int position) {
 
+        ImageView imageViewDeleteButton = (ImageView) view.findViewById(R.id.imageViewDeleteButton);
+        imageViewDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlertDialogRemoveGoal(listGoals.get(position));
+            }
+        });
+    }
+
+    private void createAlertDialogRemoveGoal(final Goal goal) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setMessage("Você realmente deseja apagar este objetivo?");
+
+        alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                removeAction(goal);
+                Toast.makeText(context, "Removido!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.create();
+        alertDialog.show();
+    }
+
+    private void removeAction(Goal goal) {
+        listGoals.remove(listGoals.indexOf(goal));
+        notifyDataSetChanged();
+
+        deleteGoalFromDatabase(goal);
+    }
+
+    private void deleteGoalFromDatabase(Goal goal) {
+        MapperGoal mapperGoal = new MapperGoal(context);
+        mapperGoal.remove(goal);
+        mapperGoal.close();
     }
 
     /*****

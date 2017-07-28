@@ -68,7 +68,11 @@ public class BookListAdapter extends ArrayAdapter {
 
     private void setImageIcon(View view, int position) {
         ImageView imageViewBookmark = (ImageView) view.findViewById(R.id.imageViewBookmark);
-        imageViewBookmark.setImageResource(R.drawable.ic_action_bookmark);
+
+        if (!bookList.get(position).wasRead())
+            imageViewBookmark.setImageResource(R.drawable.ic_action_bookmark);
+        else
+            imageViewBookmark.setImageResource(R.drawable.ic_action_bookmark_done);
     }
 
 }

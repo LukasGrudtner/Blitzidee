@@ -21,10 +21,12 @@
             android:textColorHint="@color/colorAccent" />
 
         <LinearLayout
+            android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp">
+            android:layout_marginLeft="6dp"
+            android:weightSum="1">
 
             <TextView
                 android:layout_marginTop="5dp"
@@ -34,15 +36,27 @@
                 android:text="Description"
                 android:id="@+id/textViewGoalDescription"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="0.90" />
 
         </LinearLayout>
 
-        <ImageButton
-            android:layout_gravity="right"
-            android:src="@drawable/ic_action_cancel"
-            android:layout_width="32dp"
-            android:layout_height="32dp" />
+        <RelativeLayout
+            android:layout_width="31dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_gravity="right"
+                android:src="@drawable/ic_action_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/imageViewDeleteButton" />
+
+        </RelativeLayout>
+
 
 
 

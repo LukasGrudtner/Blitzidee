@@ -95,12 +95,18 @@ public class BooksFragment extends Fragment {
         alertDialog.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                GregorianCalendar gregorianCalendar = new GregorianCalendar();
+                GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
                 Book book = new Book();
 
-                book.setDate(gregorianCalendar);
+                book.setStartDate(gregorianCalendarStart);
                 book.setTitle(editTextTitle.getText().toString());
                 book.setAuthor(editTextAuthor.getText().toString());
+
+                GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
+                gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, 1);
+                gregorianCalendarEnd.set(GregorianCalendar.MONTH, 1);
+                gregorianCalendarEnd.set(GregorianCalendar.YEAR, 1970);
+                book.setEndDate(gregorianCalendarEnd);
 
                 bookList.add(book);
                 bookListAdapter.notifyDataSetChanged();
@@ -144,4 +150,20 @@ public class BooksFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        bookList = loadBooksFromDatabase();
+
+        bookListAdapter = new BookListAdapter(getActivity(), bookList);
+        listViewBooks.setAdapter(bookListAdapter);
+        listViewBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openBookActivity(position);
+            }
+        });
+        bookListAdapter.notifyDataSetChanged();
+    }
 }

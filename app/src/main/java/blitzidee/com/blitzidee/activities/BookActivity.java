@@ -8,7 +8,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -170,6 +174,7 @@ public class BookActivity extends AppCompatActivity {
     private void setTitle() {
         TextView textViewTitle = (TextView) findViewById(R.id.textViewBookActivityTitle);
         textViewTitle.setText(book.getTitle());
+
     }
 
     private void setAuthor() {
@@ -181,18 +186,38 @@ public class BookActivity extends AppCompatActivity {
         TextView textViewDate = (TextView) findViewById(R.id.textViewBookActivityDate);
 
         String date;
-        GregorianCalendar gregorianCalendar = book.getDate();
+        GregorianCalendar gregorianCalendar = book.getStartDate();
 
-        int day = gregorianCalendar.get(gregorianCalendar.DAY_OF_MONTH);
+        int day = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
         if (day < 10) date = "0" + day; else date = String.valueOf(day);
 
-        int month = gregorianCalendar.get(gregorianCalendar.MONTH);
+        int month = gregorianCalendar.get(GregorianCalendar.MONTH);
         if (month < 10) date += "/0" + month; else date += "/" + month;
 
-        int year = gregorianCalendar.get(gregorianCalendar.YEAR);
+        int year = gregorianCalendar.get(GregorianCalendar.YEAR);
         date += "/" + year;
 
-        textViewDate.setText(date);
+        String fullDate = date + " - ";
+        GregorianCalendar gregorianCalendarEnd = book.getEndDate();
+
+        int dayEnd = gregorianCalendarEnd.get(GregorianCalendar.DAY_OF_MONTH);
+        if (dayEnd < 10) fullDate += "0" + dayEnd; else fullDate += String.valueOf(dayEnd);
+
+        int monthEnd = gregorianCalendarEnd.get(GregorianCalendar.MONTH);
+        if (monthEnd < 10) fullDate += "/0" + monthEnd; else fullDate += "/" + monthEnd;
+
+        int yearEnd = gregorianCalendarEnd.get(GregorianCalendar.YEAR);
+        fullDate += "/" + yearEnd;
+
+        GregorianCalendar aux = new GregorianCalendar();
+        aux.set(GregorianCalendar.DAY_OF_MONTH, 1);
+        aux.set(GregorianCalendar.MONTH, 1);
+        aux.set(GregorianCalendar.YEAR, 1970);
+
+        if (book.getEndDate().get(GregorianCalendar.YEAR) == aux.get(GregorianCalendar.YEAR))
+            textViewDate.setText(date);
+        else
+            textViewDate.setText(fullDate);
     }
 
     private void scrollMyListViewToBottom() {
@@ -208,5 +233,56 @@ public class BookActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_book_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.item_done:
+                doActionDone();
+                break;
+            case R.id.item_delete:
+                doActionDelete();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void doActionDone() {
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        book.setEndDate(gregorianCalendar);
+        book.setRead(true);
+
+        updateBookOnDatabase(book);
+
+        setDate();
+        Toast.makeText(getApplicationContext(), "Atualizado!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void doActionDelete() {
+        deleteBookFromDatabase(book);
+        Toast.makeText(getApplicationContext(), "Removido!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void updateBookOnDatabase(Book book) {
+        MapperBook mapperBook = new MapperBook(getApplicationContext());
+        mapperBook.updateBook(book);
+        mapperBook.close();
+    }
+
+    private void deleteBookFromDatabase(Book book) {
+        MapperBook mapperBook = new MapperBook(getApplicationContext());
+        mapperBook.remove(book);
+        mapperBook.close();
     }
 }

@@ -63,16 +63,8 @@ public class IdeaActivity extends AppCompatActivity {
         /* Implementação dos Goals */
         listGoals = idea.getGoalArrayList();
         listViewGoals = (ListView) findViewById(R.id.list_view_goals);
-        goalListAdapter = new GoalListAdapter(getApplicationContext(), listGoals);
+        goalListAdapter = new GoalListAdapter(this, listGoals);
         listViewGoals.setAdapter(goalListAdapter);
-        listViewGoals.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("DATABASEDED", "long click");
-//                createAlertDialogRemoveGoal(position);
-                return false;
-            }
-        });
         goalListAdapter.notifyDataSetChanged();
     }
 

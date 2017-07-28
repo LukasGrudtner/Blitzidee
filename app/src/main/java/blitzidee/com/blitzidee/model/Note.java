@@ -7,7 +7,7 @@ package blitzidee.com.blitzidee.model;
 public class Note {
 
     private String description;
-    private String bookId;
+    private int bookId;
 
     public String getDescription() {
         return description;
@@ -17,11 +17,11 @@ public class Note {
         this.description = description;
     }
 
-    public String getBookId() {
+    public int getBookId() {
         return bookId;
     }
 
-    public void setBookId(String bookId) {
+    public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 }
