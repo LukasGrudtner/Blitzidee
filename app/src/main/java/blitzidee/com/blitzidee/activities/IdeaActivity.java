@@ -25,8 +25,8 @@ import java.util.GregorianCalendar;
 
 import blitzidee.com.blitzidee.R;
 import blitzidee.com.blitzidee.adapter.GoalListAdapter;
-import blitzidee.com.blitzidee.mapeadores.MapeadorGoal;
-import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
+import blitzidee.com.blitzidee.mapeadores.MapperGoal;
+import blitzidee.com.blitzidee.mapeadores.MapperIdea;
 import blitzidee.com.blitzidee.model.Goal;
 import blitzidee.com.blitzidee.model.Idea;
 
@@ -49,9 +49,9 @@ public class IdeaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_idea);
 
         String ideaTitle = getIntent().getExtras().getString("ideaTitle");
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
-        idea = mapeadorIdea.get(ideaTitle);
-        mapeadorIdea.close();
+        MapperIdea mapperIdea = new MapperIdea(getApplicationContext());
+        idea = mapperIdea.get(ideaTitle);
+        mapperIdea.close();
 
         createToolbar();
 
@@ -198,15 +198,15 @@ public class IdeaActivity extends AppCompatActivity {
     }
 
     private void deleteIdeaFromDatabase(Idea idea) {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
-        mapeadorIdea.remove(idea);
-        mapeadorIdea.close();
+        MapperIdea mapperIdea = new MapperIdea(getApplicationContext());
+        mapperIdea.remove(idea);
+        mapperIdea.close();
     }
 
     private void saveIdeaOnDatabase() {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
-        mapeadorIdea.put(idea);
-        mapeadorIdea.close();
+        MapperIdea mapperIdea = new MapperIdea(getApplicationContext());
+        mapperIdea.put(idea);
+        mapperIdea.close();
     }
 
     private void setCreationDateInTextView(GregorianCalendar creationDate) {
@@ -264,21 +264,21 @@ public class IdeaActivity extends AppCompatActivity {
     }
 
     private void deleteGoalFromDatabase(Goal goal) {
-        MapeadorGoal mapeadorGoal = new MapeadorGoal(getApplicationContext());
-        mapeadorGoal.remove(goal);
-        mapeadorGoal.close();
+        MapperGoal mapperGoal = new MapperGoal(getApplicationContext());
+        mapperGoal.remove(goal);
+        mapperGoal.close();
     }
 
     private void saveGoalOnDatabase(Goal goal) {
-        MapeadorGoal mapeadorGoal = new MapeadorGoal(getApplicationContext());
-        mapeadorGoal.put(goal);
-        mapeadorGoal.close();
+        MapperGoal mapperGoal = new MapperGoal(getApplicationContext());
+        mapperGoal.put(goal);
+        mapperGoal.close();
     }
 
     private ArrayList<Goal> loadGoalsFromDatabase() {
-        MapeadorGoal mapeadorGoal = new MapeadorGoal(getApplicationContext());
-        ArrayList<Goal> goalList = mapeadorGoal.getAll(idea);
-        mapeadorGoal.close();
+        MapperGoal mapperGoal = new MapperGoal(getApplicationContext());
+        ArrayList<Goal> goalList = mapperGoal.getAll(idea);
+        mapperGoal.close();
         return goalList;
     }
 }

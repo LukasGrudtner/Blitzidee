@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import java.util.GregorianCalendar;
 import blitzidee.com.blitzidee.R;
 import blitzidee.com.blitzidee.activities.IdeaActivity;
 import blitzidee.com.blitzidee.adapter.IdeaListAdapter;
-import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
+import blitzidee.com.blitzidee.mapeadores.MapperIdea;
 import blitzidee.com.blitzidee.model.Idea;
 
 /**
@@ -163,15 +162,15 @@ public class IdeasFragment extends Fragment {
     }
 
     private void saveIdeaOnDatabase(Idea idea) {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getContext());
-        mapeadorIdea.put(idea);
-        mapeadorIdea.close();
+        MapperIdea mapperIdea = new MapperIdea(getContext());
+        mapperIdea.put(idea);
+        mapperIdea.close();
     }
 
     private ArrayList<Idea> loadIdeasFromDatabase() {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getContext());
-        ArrayList<Idea> ideaList = mapeadorIdea.getAll();
-        mapeadorIdea.close();
+        MapperIdea mapperIdea = new MapperIdea(getContext());
+        ArrayList<Idea> ideaList = mapperIdea.getAll();
+        mapperIdea.close();
         return ideaList;
     }
 

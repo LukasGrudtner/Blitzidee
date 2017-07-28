@@ -12,7 +12,7 @@ import blitzidee.com.blitzidee.model.Idea;
  * Created by lukas on 22/07/2017.
  */
 
-public class MapeadorGoal extends SQLiteOpenHelper {
+public class MapperGoal extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "blitzidee.goals";
     private static final String STRING_CREATION_TABLE = "CREATE TABLE IF NOT EXISTS GOALS (" +
@@ -21,7 +21,7 @@ public class MapeadorGoal extends SQLiteOpenHelper {
             "IDEA_ID INTEGER, " +
             "IS_COMPLETE INTEGER)";
 
-    public MapeadorGoal(Context context) {
+    public MapperGoal(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 

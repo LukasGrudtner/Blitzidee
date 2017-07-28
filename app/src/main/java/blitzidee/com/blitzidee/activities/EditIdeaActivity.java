@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import blitzidee.com.blitzidee.R;
-import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
+import blitzidee.com.blitzidee.mapeadores.MapperIdea;
 import blitzidee.com.blitzidee.model.Idea;
 
 public class EditIdeaActivity extends AppCompatActivity {
@@ -27,8 +27,8 @@ public class EditIdeaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_idea);
 
         String ideaTitle = getIntent().getExtras().getString("ideaTitle");
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
-        idea = mapeadorIdea.get(ideaTitle);
+        MapperIdea mapperIdea = new MapperIdea(getApplicationContext());
+        idea = mapperIdea.get(ideaTitle);
         oldTitle = idea.getTitle();
 
         editTextIdeaTitle = (EditText) findViewById(R.id.editTextIdeaTitle);
@@ -81,8 +81,8 @@ public class EditIdeaActivity extends AppCompatActivity {
     }
 
     private void saveIdeaOnDatabase(Idea idea) {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(getApplicationContext());
-        mapeadorIdea.updateIdea(oldTitle, idea);
-        mapeadorIdea.close();
+        MapperIdea mapperIdea = new MapperIdea(getApplicationContext());
+        mapperIdea.updateIdea(oldTitle, idea);
+        mapperIdea.close();
     }
 }

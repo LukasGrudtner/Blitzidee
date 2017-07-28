@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -50,9 +51,57 @@ public class AnimesFragment extends Fragment {
         listViewAnimes = (ListView) view.findViewById(R.id.list_view_animes);
         animeListAdapter = new AnimeListAdapter(getActivity(), animeList);
         listViewAnimes.setAdapter(animeListAdapter);
+        listViewAnimes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                createAlertDialogRemoveAnime(position);
+                return true;
+            }
+        });
         animeListAdapter.notifyDataSetChanged();
 
         return view;
+    }
+
+    private void createAlertDialogRemoveAnime(final int position) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setMessage("Você realmente deseja remover o anime '" + animeList.get(position).getTitle() + "'?");
+        alertDialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAnimeFromDatabase(animeList.get(position));
+                animeList.remove(getPositionOfAnimeFromList(animeList.get(position)));
+                animeListAdapter.notifyDataSetChanged();
+
+                Toast.makeText(getActivity(), "Removido!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alertDialog.create();
+        alertDialog.show();
+    }
+
+    private void deleteAnimeFromDatabase(Anime anime) {
+        MapperAnime mapperAnime = new MapperAnime(getActivity());
+        mapperAnime.remove(anime);
+        mapperAnime.close();
+    }
+
+    private int getPositionOfAnimeFromList(Anime anime) {
+        int position = 0;
+        for (Anime aux : animeList) {
+            if (anime.equals(aux))
+                return position;
+            else
+                position++;
+        }
+        return position;
     }
 
     private void setFloatingActionButton(View view) {

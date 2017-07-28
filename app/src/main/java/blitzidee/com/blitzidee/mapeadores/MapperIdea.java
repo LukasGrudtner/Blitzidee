@@ -14,9 +14,9 @@ import blitzidee.com.blitzidee.model.Idea;
  * Created by lukas on 19/07/2017.
  */
 
-public class MapeadorIdea extends SQLiteOpenHelper{
+public class MapperIdea extends SQLiteOpenHelper{
 
-    private MapeadorGoal mapeadorGoal;
+    private MapperGoal mapperGoal;
     private static final String DATABASE_NAME = "blitzidee.ideas";
     private static final String STRING_CREATION_TABLE = "CREATE TABLE IF NOT EXISTS IDEAS (" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -29,9 +29,9 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             "END_YEAR INTEGER, " +
             "IS_COMPLETE INTEGER)";
 
-    public MapeadorIdea(Context context) {
+    public MapperIdea(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        mapeadorGoal = new MapeadorGoal(context);
+        mapperGoal = new MapperGoal(context);
     }
 
     public void put(Idea idea) {
@@ -69,7 +69,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             idea.setId(cursor.getInt(0));
 
             for (Goal goal : idea.getGoalArrayList())
-                mapeadorGoal.put(goal);
+                mapperGoal.put(goal);
 
             database.close();
 
@@ -141,7 +141,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                 gregorianCalendarEnd.set(GregorianCalendar.YEAR, cursor.getInt(columnEndYear));
                 idea.setEndDate(gregorianCalendarEnd);
 
-                idea.setGoalArrayList(mapeadorGoal.getAll(idea));
+                idea.setGoalArrayList(mapperGoal.getAll(idea));
             }
 
             database.close();
@@ -194,7 +194,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
                 gregorianCalendarEnd.set(GregorianCalendar.YEAR, cursor.getInt(columnEndYear));
                 idea.setEndDate(gregorianCalendarEnd);
 
-                idea.setGoalArrayList(mapeadorGoal.getAll(idea));
+                idea.setGoalArrayList(mapperGoal.getAll(idea));
             }
 
             database.close();
@@ -275,7 +275,7 @@ public class MapeadorIdea extends SQLiteOpenHelper{
             database.execSQL("DELETE FROM IDEAS WHERE TITLE = '" + idea.getTitle() + "'");
 
             for (Goal goal : idea.getGoalArrayList())
-                mapeadorGoal.remove(goal);
+                mapperGoal.remove(goal);
 
             database.close();
 

@@ -12,8 +12,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 import blitzidee.com.blitzidee.R;
-import blitzidee.com.blitzidee.mapeadores.MapeadorGoal;
-import blitzidee.com.blitzidee.mapeadores.MapeadorIdea;
+import blitzidee.com.blitzidee.mapeadores.MapperGoal;
+import blitzidee.com.blitzidee.mapeadores.MapperIdea;
 import blitzidee.com.blitzidee.model.Goal;
 import blitzidee.com.blitzidee.model.Idea;
 
@@ -66,9 +66,9 @@ public class GoalListAdapter extends ArrayAdapter{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 listGoals.get(position).setConclusion(isChecked);
 
-                MapeadorGoal mapeadorGoal = new MapeadorGoal(context);
-                mapeadorGoal.updateGoal(listGoals.get(position));
-                mapeadorGoal.close();
+                MapperGoal mapperGoal = new MapperGoal(context);
+                mapperGoal.updateGoal(listGoals.get(position));
+                mapperGoal.close();
 
                 updateIdeaConclusion(ideaIsComplete(), listGoals.get(position));
 
@@ -88,11 +88,11 @@ public class GoalListAdapter extends ArrayAdapter{
     }
 
     private void updateIdeaConclusion(boolean isComplete, Goal goal) {
-        MapeadorIdea mapeadorIdea = new MapeadorIdea(context);
-        Idea idea = mapeadorIdea.get(goal.getIdeaId());
+        MapperIdea mapperIdea = new MapperIdea(context);
+        Idea idea = mapperIdea.get(goal.getIdeaId());
         idea.setConclusion(isComplete);
-        mapeadorIdea.updateIdea(idea.getTitle(), idea);
-        mapeadorIdea.close();
+        mapperIdea.updateIdea(idea.getTitle(), idea);
+        mapperIdea.close();
     }
 
     private void setDescription(View view, int position) {
