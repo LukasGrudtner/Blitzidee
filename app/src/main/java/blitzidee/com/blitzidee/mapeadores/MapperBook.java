@@ -20,18 +20,14 @@ import blitzidee.com.blitzidee.model.Idea;
 public class MapperBook extends SQLiteOpenHelper {
 
     private MapperNote mapperNote;
-    private static final String DATABASE_NAME = "blitzidee.books";
+    private static final String DATABASE_NAME = "bucher.books";
     private static final String STRING_CREATION_TABLE = "CREATE TABLE IF NOT EXISTS BOOKS (" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "TITLE VARCHAR, " +
             "AUTHOR VARCHAR, " +
-            "START_DAY INTEGER, " +
-            "START_MONTH INTEGER, " +
-            "START_YEAR INTEGER, " +
             "END_DAY INTEGER, " +
             "END_MONTH INTEGER, " +
-            "END_YEAR INTEGER, " +
-            "WAS_READ INTEGER)";
+            "END_YEAR INTEGER)";
 
     public MapperBook(Context context) {
         super(context, DATABASE_NAME, null, 1);

@@ -62,6 +62,7 @@ public class BooksFragment extends Fragment {
             }
         });
         bookListAdapter.notifyDataSetChanged();
+        scrollMyListViewToBottom();
 
         return view;
     }
@@ -108,7 +109,6 @@ public class BooksFragment extends Fragment {
                 gregorianCalendar.set(GregorianCalendar.YEAR, Integer.parseInt(editTextYear.getText().toString()));
 
                 book.setEndDate(gregorianCalendar);
-                Log.i("TESTE", gregorianCalendar.getTime() + "");
                 book.setTitle(editTextTitle.getText().toString());
                 book.setAuthor(editTextAuthor.getText().toString());
 

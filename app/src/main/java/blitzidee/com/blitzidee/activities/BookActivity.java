@@ -226,9 +226,6 @@ public class BookActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-//            case R.id.item_done:
-//                doActionDone();
-//                break;
             case R.id.item_delete:
                 doActionDelete();
                 break;
@@ -237,27 +234,11 @@ public class BookActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    private void doActionDone() {
-//        GregorianCalendar gregorianCalendar = new GregorianCalendar();
-//        book.setEndDate(gregorianCalendar);
-//
-//        updateBookOnDatabase(book);
-//
-//        setDate();
-//        Toast.makeText(getApplicationContext(), "Atualizado!", Toast.LENGTH_SHORT).show();
-//    }
-
     private void doActionDelete() {
         deleteBookFromDatabase(book);
         Toast.makeText(getApplicationContext(), "Removido!", Toast.LENGTH_SHORT).show();
         finish();
     }
-//
-//    private void updateBookOnDatabase(Book book) {
-//        MapperBook mapperBook = new MapperBook(getApplicationContext());
-//        mapperBook.updateBook(book);
-//        mapperBook.close();
-//    }
 
     private void deleteBookFromDatabase(Book book) {
         MapperBook mapperBook = new MapperBook(getApplicationContext());
