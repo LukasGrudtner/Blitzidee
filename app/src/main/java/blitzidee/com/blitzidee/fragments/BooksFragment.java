@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -85,28 +87,30 @@ public class BooksFragment extends Fragment {
         alertDialog.setCancelable(false);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.add_book_dialog, null, false);
+        View view = inflater.inflate(R.layout.add_book_with_date_dialog, null, false);
 
         final EditText editTextTitle = (EditText) view.findViewById(R.id.editTextDialogBookTitle);
         final EditText editTextAuthor = (EditText) view.findViewById(R.id.editTextDialogBookAuthor);
+        final EditText editTextDay = (EditText) view.findViewById(R.id.editTextDialogBookDay);
+        final EditText editTextMonth = (EditText) view.findViewById(R.id.editTextDialogBookMonth);
+        final EditText editTextYear = (EditText) view.findViewById(R.id.editTextDialogBookYear);
 
         alertDialog.setView(view);
 
         alertDialog.setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
+                GregorianCalendar gregorianCalendar = new GregorianCalendar();
                 Book book = new Book();
 
-                book.setStartDate(gregorianCalendarStart);
+                gregorianCalendar.set(GregorianCalendar.DAY_OF_MONTH, Integer.parseInt(editTextDay.getText().toString()));
+                gregorianCalendar.set(GregorianCalendar.MONTH, Integer.parseInt(editTextMonth.getText().toString()) - 1);
+                gregorianCalendar.set(GregorianCalendar.YEAR, Integer.parseInt(editTextYear.getText().toString()));
+
+                book.setEndDate(gregorianCalendar);
+                Log.i("TESTE", gregorianCalendar.getTime() + "");
                 book.setTitle(editTextTitle.getText().toString());
                 book.setAuthor(editTextAuthor.getText().toString());
-
-                GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
-                gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, 1);
-                gregorianCalendarEnd.set(GregorianCalendar.MONTH, 1);
-                gregorianCalendarEnd.set(GregorianCalendar.YEAR, 1970);
-                book.setEndDate(gregorianCalendarEnd);
 
                 bookList.add(book);
                 bookListAdapter.notifyDataSetChanged();
@@ -126,6 +130,37 @@ public class BooksFragment extends Fragment {
 
         alertDialog.create();
         alertDialog.show();
+    }
+
+    /* Função auxiliar para adicionar livros setando a data. */
+    private void createAlertDialogSetDateBook(final GregorianCalendar gregorianCalendar) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+        LinearLayout layout = new LinearLayout(getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText editTextDay = new EditText(getContext());
+        editTextDay.setHint("Day");
+        layout.addView(editTextDay);
+
+        final EditText editTextMonth = new EditText(getContext());
+        editTextMonth.setHint("Month");
+        layout.addView(editTextMonth);
+
+        final EditText editTextYear = new EditText(getContext());
+        editTextYear.setHint("Year");
+        layout.addView(editTextYear);
+
+        alertDialog.setView(layout);
+
+        alertDialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                gregorianCalendar.set(GregorianCalendar.DAY_OF_MONTH, Integer.parseInt(editTextDay.getText().toString()));
+                gregorianCalendar.set(GregorianCalendar.MONTH, Integer.parseInt(editTextMonth.getText().toString()));
+                gregorianCalendar.set(GregorianCalendar.YEAR, Integer.parseInt(editTextYear.getText().toString()));
+            }
+        });
     }
 
     private void saveBookOnDatabase(Book book) {

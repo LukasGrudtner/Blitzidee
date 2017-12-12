@@ -14,7 +14,7 @@ import blitzidee.com.blitzidee.fragments.IdeasFragment;
 
 public class TabAdapter extends FragmentStatePagerAdapter {
 
-    private String[] tabTitles = {"IDEAS", "BOOKS", "ANIMES"};
+    private String[] tabTitles = {"BOOKS", "ANIMES"};
 
     public TabAdapter(FragmentManager fm) {
         super(fm);
@@ -26,12 +26,9 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                fragment = new IdeasFragment();
-                break;
-            case 1:
                 fragment = new BooksFragment();
                 break;
-            case 2:
+            case 1:
                 fragment = new AnimesFragment();
                 break;
         }

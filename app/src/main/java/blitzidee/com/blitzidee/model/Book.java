@@ -12,10 +12,8 @@ public class Book {
     private int id;
     private String title;
     private String author;
-    private GregorianCalendar startDate;
     private GregorianCalendar endDate;
     private ArrayList<Note> noteArrayList;
-    private boolean wasRead = false;
 
     public int getId() {
         return id;
@@ -41,14 +39,6 @@ public class Book {
         this.author = author;
     }
 
-    public GregorianCalendar getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(GregorianCalendar startDate) {
-        this.startDate = startDate;
-    }
-
     public GregorianCalendar getEndDate() { return endDate; }
 
     public void setEndDate(GregorianCalendar endDate) { this.endDate = endDate; }
@@ -59,13 +49,5 @@ public class Book {
 
     public void setNoteArrayList(ArrayList<Note> noteArrayList) {
         this.noteArrayList = noteArrayList;
-    }
-
-    public boolean wasRead() {
-        return wasRead;
-    }
-
-    public void setRead(boolean wasRead) {
-        this.wasRead = wasRead;
     }
 }

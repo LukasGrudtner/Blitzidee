@@ -45,7 +45,7 @@ public class BookListAdapter extends ArrayAdapter {
             setTitle(view, position);
             setAuthor(view, position);
             setStringPosition(view, position);
-            setImageIcon(view, position);
+            setImageIcon(view);
         }
 
         return view;
@@ -54,7 +54,9 @@ public class BookListAdapter extends ArrayAdapter {
     private void setTitle(View view, int position) {
         TextView textViewBookTitle = (TextView) view.findViewById(R.id.textViewBookTitle);
         textViewBookTitle.setText(bookList.get(position).getTitle());
-    };
+    }
+
+    ;
 
     private void setAuthor(View view, int position) {
         TextView textViewBookAuthor = (TextView) view.findViewById(R.id.textViewBookAuthor);
@@ -63,16 +65,12 @@ public class BookListAdapter extends ArrayAdapter {
 
     private void setStringPosition(View view, int position) {
         TextView textViewStringPosition = (TextView) view.findViewById(R.id.textViewBookPosition);
-        textViewStringPosition.setText(String.valueOf(position+1));
+        textViewStringPosition.setText(String.valueOf(position + 1));
     }
 
-    private void setImageIcon(View view, int position) {
+    private void setImageIcon(View view) {
         ImageView imageViewBookmark = (ImageView) view.findViewById(R.id.imageViewBookmark);
 
-        if (!bookList.get(position).wasRead())
-            imageViewBookmark.setImageResource(R.drawable.ic_action_bookmark);
-        else
-            imageViewBookmark.setImageResource(R.drawable.ic_action_bookmark_done);
+        imageViewBookmark.setImageResource(R.drawable.ic_action_bookmark);
     }
-
 }

@@ -49,17 +49,12 @@ public class MapperBook extends SQLiteOpenHelper {
 
             database.execSQL(STRING_CREATION_TABLE);
 
-            database.execSQL("INSERT INTO BOOKS (TITLE, AUTHOR, START_DAY, START_MONTH, START_YEAR, " +
-                    "END_DAY, END_MONTH, END_YEAR, WAS_READ) " +
+            database.execSQL("INSERT INTO BOOKS (TITLE, AUTHOR, END_DAY, END_MONTH, END_YEAR) " +
                     "VALUES('" + book.getTitle() + "', " +
                     "'" + book.getAuthor() + "', " +
-                    "'" + book.getStartDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
-                    "'" + book.getStartDate().get(GregorianCalendar.MONTH) + "', " +
-                    "'" + book.getStartDate().get(GregorianCalendar.YEAR)  + "', " +
                     "'" + book.getEndDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
                     "'" + book.getEndDate().get(GregorianCalendar.MONTH) + "', " +
-                    "'" + book.getEndDate().get(GregorianCalendar.YEAR)  + "', " +
-                    "'" + (book.wasRead()? 1 : 0) + "')");
+                    "'" + book.getEndDate().get(GregorianCalendar.YEAR)  + "')");
 
             database.close();
 
@@ -79,13 +74,9 @@ public class MapperBook extends SQLiteOpenHelper {
             database.execSQL(STRING_CREATION_TABLE);
 
             database.execSQL("UPDATE BOOKS SET AUTHOR = '" + book.getAuthor() + "', " +
-                    "START_DAY = '" + book.getStartDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
-                    "START_MONTH = '" + book.getStartDate().get(GregorianCalendar.MONTH) + "', " +
-                    "START_YEAR = '" + book.getStartDate().get(GregorianCalendar.YEAR) + "', " +
                     "END_DAY = '" + book.getEndDate().get(GregorianCalendar.DAY_OF_MONTH) + "', " +
                     "END_MONTH = '" + book.getEndDate().get(GregorianCalendar.MONTH) + "', " +
                     "END_YEAR = '" + book.getEndDate().get(GregorianCalendar.YEAR) + "', " +
-                    "WAS_READ = '" + (book.wasRead()? 1 : 0) + "' " +
                     "WHERE TITLE = '" + book.getTitle() + "'");
 
             database.close();
@@ -109,26 +100,15 @@ public class MapperBook extends SQLiteOpenHelper {
             if (cursor.getCount() > 0) {
                 int columnId = cursor.getColumnIndex("ID");
                 int columnAuthor = cursor.getColumnIndex("AUTHOR");
-                int columnStartDay = cursor.getColumnIndex("START_DAY");
-                int columnStartMonth = cursor.getColumnIndex("START_MONTH");
-                int columnStartYear = cursor.getColumnIndex("START_YEAR");
                 int columnEndDay = cursor.getColumnIndex("END_DAY");
                 int columnEndMonth = cursor.getColumnIndex("END_MONTH");
                 int columnEndYear = cursor.getColumnIndex("END_YEAR");
-                int columnWasRead = cursor.getColumnIndex("WAS_READ");
 
                 cursor.moveToFirst();
                 book = new Book();
                 book.setId(cursor.getInt(columnId));
                 book.setTitle(title);
                 book.setAuthor(cursor.getString(columnAuthor));
-                book.setRead((cursor.getInt(columnWasRead) == 1)? true : false);
-
-                GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
-                gregorianCalendarStart.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnStartDay));
-                gregorianCalendarStart.set(GregorianCalendar.MONTH, cursor.getInt(columnStartMonth));
-                gregorianCalendarStart.set(GregorianCalendar.YEAR, cursor.getInt(columnStartYear));
-                book.setStartDate(gregorianCalendarStart);
 
                 GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
                 gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnEndDay));
@@ -164,13 +144,9 @@ public class MapperBook extends SQLiteOpenHelper {
             /* Recuperar o índice de cada coluna. */
             int columnTitle = cursor.getColumnIndex("TITLE");
             int columnAuthor = cursor.getColumnIndex("AUTHOR");
-            int columnStartDay = cursor.getColumnIndex("START_DAY");
-            int columnStartMonth = cursor.getColumnIndex("START_MONTH");
-            int columnStartYear = cursor.getColumnIndex("START_YEAR");
             int columnEndDay = cursor.getColumnIndex("END_DAY");
             int columnEndMonth = cursor.getColumnIndex("END_MONTH");
             int columnEndYear = cursor.getColumnIndex("END_YEAR");
-            int columnWasRead = cursor.getColumnIndex("WAS_READ");
 
             cursor.moveToFirst();
             Book book;
@@ -179,13 +155,6 @@ public class MapperBook extends SQLiteOpenHelper {
                 book = new Book();
                 book.setTitle(cursor.getString(columnTitle));
                 book.setAuthor(cursor.getString(columnAuthor));
-                book.setRead((cursor.getInt(columnWasRead) == 1) ? true : false);
-
-                GregorianCalendar gregorianCalendarStart = new GregorianCalendar();
-                gregorianCalendarStart.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnStartDay));
-                gregorianCalendarStart.set(GregorianCalendar.MONTH, cursor.getInt(columnStartMonth));
-                gregorianCalendarStart.set(GregorianCalendar.YEAR, cursor.getInt(columnStartYear));
-                book.setStartDate(gregorianCalendarStart);
 
                 GregorianCalendar gregorianCalendarEnd = new GregorianCalendar();
                 gregorianCalendarEnd.set(GregorianCalendar.DAY_OF_MONTH, cursor.getInt(columnEndDay));

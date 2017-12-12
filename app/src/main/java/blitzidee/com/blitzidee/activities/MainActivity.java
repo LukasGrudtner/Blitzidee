@@ -13,7 +13,6 @@ import blitzidee.com.blitzidee.helper.SlidingTabLayout;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private String[] select = {"Ideias", "Livros", "Animes"};
     private SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
 
